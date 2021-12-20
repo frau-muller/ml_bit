@@ -49,7 +49,7 @@ model.add(LSTM(units=50, return_sequences=True))
 model.add(Dropout(0.2))
 model.add(LSTM(units=50))
 #последний слой
-model.Dense(units=1)
+model.add(Dense(units=1))
 
 #скомпилируем
 model.compile(optimizer='adam', loss='mean_squared_error')
@@ -68,5 +68,27 @@ total_dataset = pd.concat((data['Close'],test_data['Close']),axis=0)
 
 #входные данные модели будут равны общему набору данных
 model_inputs = total_dataset[len(total_dataset)-len(test_data) - prediction_days:].values
-model_inputs = m
+model_inputs = model_inputs.reshape(-1,1)
+model_inputs = scaler.fit_transform(model_inputs)
+
+x_test = []
+
+for x in range(prediction_days, len(model_inputs)):
+    x_test.append(model_inputs[x-prediction_days:x,0])
+
+x_test = np.array(x_test)
+x_test = np.reshape(x_test,(x_test.shape[0],x_test.shape[1],1))
+
+prediction_prices = model.predict(x_test)
+prediction_prices = scaler.inverse_transform(prediction_prices)
+
+plt.plot(actual_prices,color = 'black',label = 'Actual Prices')
+plt.plot(prediction_prices,color = 'green',label = 'Predicted Prices')
+plt.title(f'{crypto_currency} price prediction')
+plt.xlabel('Time')
+plt.ylabel('Price')
+plt.legend(loc='upper left')
+plt.show()
+
+
 
