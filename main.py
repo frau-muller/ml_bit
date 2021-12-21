@@ -59,7 +59,7 @@ model.compile(optimizer='adam', loss='mean_squared_error')
 model.fit(x_train, y_train, epochs=25, batch_size=32)
 
 #тестируем модель с указанием временных рамок
-test_start = dt.datetime(2016,1,1)
+test_start = dt.datetime(2015,1,1)
 test_end = dt.datetime.now()
 
 test_data = web.DataReader(f'{crypto_currency}-{against_currency}', 'yahoo',test_start, test_end)
