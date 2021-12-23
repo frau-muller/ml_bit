@@ -28,8 +28,8 @@ scaler = MinMaxScaler(feature_range=(0,1))
 #преобразовываем один столбец
 scaled_data = scaler.fit_transform(data['Close'].values.reshape(-1,1))
 #количество дней на основе,которых мы прогнозируем один день
-prediction_days = 60
-future_day = 30
+prediction_days = 61
+future_day = 20
 x_train, y_train = [], []
 #заполним фактическими значениями
 
